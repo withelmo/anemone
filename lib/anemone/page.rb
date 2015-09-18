@@ -47,6 +47,7 @@ module Anemone
       @response_time = params[:response_time]
       @body = params[:body]
       @error = params[:error]
+      @charset = params[:charset]
 
       @fetched = !params[:code].nil?
     end
@@ -74,7 +75,20 @@ module Anemone
     #
     def doc
       return @doc if @doc
-      @doc = Nokogiri::HTML(@body) if @body && html? rescue nil
+      if @body && html?
+        if @charset.blank?
+          body = @body
+        else
+          body = @body.encode(
+                          "UTF-8",
+                          @charset,
+                          :invalid => :replace,
+                          :undef => :replace
+          ) rescue nil
+        end
+
+        @doc = Nokogiri::HTML(body) unless body.nil?
+      end
     end
 
     #
@@ -213,5 +227,15 @@ module Anemone
       end
       page
     end
+
+    def charset
+      unless @charset.blank?
+        charset = @charset
+      else
+
+      end
+      charset
+    end
+
   end
 end
