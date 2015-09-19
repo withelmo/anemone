@@ -76,12 +76,12 @@ module Anemone
     def doc
       return @doc if @doc
       if @body && html?
-        if @charset.blank?
+        if charset.blank?
           body = @body
         else
           body = @body.encode(
                           "UTF-8",
-                          @charset,
+                          charset,
                           :invalid => :replace,
                           :undef => :replace
           ) rescue nil
@@ -229,13 +229,7 @@ module Anemone
     end
 
     def charset
-      unless @charset.blank?
-        charset = @charset
-      else
-
-      end
-      charset
+      (@charset.blank?) ? 'UTF-8' : @charset
     end
-
   end
 end

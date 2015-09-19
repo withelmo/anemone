@@ -28,7 +28,7 @@ module Anemone
     # Create new Pages from the response of an HTTP request to *url*,
     # including redirects
     #
-    def fetch_pages(url, referer = nil, depth = nil)
+    def fetch_pages(url, referer = nil, depth = nil, charset = 'UTF-8')
       begin
         url = URI(url) unless url.is_a?(URI)
         pages = []
@@ -39,7 +39,8 @@ module Anemone
                                       :referer => referer,
                                       :depth => depth,
                                       :redirect_to => redirect_to,
-                                      :response_time => response_time)
+                                      :response_time => response_time,
+                                      :charset => charset)
         end
 
         return pages
